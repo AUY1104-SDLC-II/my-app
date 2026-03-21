@@ -8,7 +8,7 @@ jobs:
   call-docker-workflow:
     uses: AUY1104-SDLC-II/devops-library/.github/workflows/build-push.yml@feat/actividad-1-1-plantilla-docker
     with:
-      image_name: ${{ vars.DOCKER_USERNAME }}/web-srv-hola-mundo
+      image_name: ${{ secrets.DOCKER_USERNAME }}/web-srv-hola-mundo
     secrets:
       DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
       DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
