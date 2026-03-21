@@ -6,7 +6,7 @@ on:
       - feat/actividad-1-1-hola-mundo-web
 jobs:
   call-docker-workflow:
-    uses: AUY1104-SDLC-II/devops-library/.github/workflows/docker/build-push.yml@feat/actividad-1-1-plantilla-docker
+    uses: AUY1104-SDLC-II/devops-library/.github/workflows/build-push.yml@feat/actividad-1-1-plantilla-docker
     with:
       image_name: ${{ vars.DOCKER_USERNAME }}/web-srv-hola-mundo
     secrets:
