@@ -10,6 +10,5 @@ jobs:
     with:
       image_name: ${{ vars.DOCKER_USERNAME }}/web-srv-hola-mundo
     secrets:
-      DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
+      DOCKER_USERNAME: ${{ vars.DOCKER_USERNAME }}
       DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
-
