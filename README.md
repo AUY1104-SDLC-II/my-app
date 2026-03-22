@@ -25,7 +25,7 @@ Secret (secrets): DOCKER_PASSWORD (tu Access Token de Docker Hub).
 📊 Diagrama de Secuencia
 
 Así es como interactúan los dos repositorios cuando haces un cambio:
-
+```mermaid
 sequenceDiagram
 participant Dev as 👨‍💻 Desarrollador
 participant App as 📁 Repo: My-App
@@ -38,7 +38,7 @@ participant Hub as 🐳 Docker Hub
     Note over Lib: Se ejecuta en servidores de GitHub
     Lib->>Hub: Sube la imagen construida
     Hub-->>Dev: ✅ Imagen disponible en el registro
-
+```
 
 ⌨️ Comandos para pruebas
 
