@@ -1,6 +1,8 @@
 name: Deploy App
 
 on:
+  tags:
+    - 'v.*.*.*'
   push:
     branches:
       - feat/actividad-1-1-hola-mundo-web
