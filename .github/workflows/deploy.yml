@@ -1,17 +1,17 @@
 name: Deploy App
 
 on:
-  tags:
-    - 'v.*.*.*'
-#  push:
-#    branches:
-#      - feat/actividad-1-1-hola-mundo-web
+  push:
+    tags:
+      - 'v.*.*.*'
+    branches:
+      - feat/actividad-1-1-hola-mundo-web
 
 jobs:
   call-docker-workflow:
     uses: AUY1104-SDLC-II/devops-library/.github/workflows/build-push.yml@feat/actividad-1-1-plantilla-docker
-    with:
-      image_name: ${{ vars.DOCKER_USERNAME  }}/web-srv-hola-mundo
+#    with:
+#      image_name: ${{ vars.DOCKER_USERNAME  }}/web-srv-hola-mundo
     secrets:
       DOCKER_USERNAME: ${{ vars.DOCKER_USERNAME }}
       DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
