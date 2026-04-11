@@ -3,10 +3,8 @@ name: Deploy App
 on:
   push:
     tags:
-      - 'v.*.*.*'
     branches:
-      - feat/actividad-1-1-plantilla-docker
-      - feat/evalacion_sumativa_1
+      - feat/
   workflow_dispatch:
 
 
@@ -14,9 +12,9 @@ jobs:
   call-docker-workflow:
     uses: AUY1104-SDLC-II/devops-library/.github/workflows/build-push.yml@feat/actividad-1-1-plantilla-docker
     with:
-      image_name: demo-api
+      image-name: demo-api
       image-tag: ${{ github.ref_name}}
     secrets:
       DOCKER_USERNAME: ${{ vars.DOCKER_USERNAME }}
       DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
-#test2
+#test4
