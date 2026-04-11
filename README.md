@@ -1,53 +1,108 @@
-🚀 My App - Hola Mundo Web
+# API de ejemplo — AUY1104 (Express + Docker)
 
-Esta es nuestra aplicación de ejemplo. Es una página web sencilla que corre dentro de un contenedor Nginx.
+API académica mínima en **Node.js** y **Express**, pensada para practicar contenedores y pruebas con `curl`. Responde siempre en **JSON**.
 
-🎯 ¿Qué hace este repo?
+## Requisitos
 
-Demuestra cómo una aplicación puede delegar su proceso de "empaquetado" a una librería externa. Aquí solo nos preocupamos por el código de la web y el Dockerfile.
+- Node.js 20+ (ejecución local)
+- Docker (ejecución en contenedor)
 
-📦 Componentes
+## Ejecución local
 
-index.html: Nuestra página "¡Hola Mundo!".
-
-Dockerfile: La receta para crear el contenedor.
-
-.github/workflows/deploy.yml: El archivo que "llama" a la librería DevOps.
-
-🔐 Configuración de Seguridad
-
-Para que el despliegue funcione, configuramos en la Organización:
-
-Variable (vars): DOCKER_USERNAME (tu usuario de Docker).
-
-Secret (secrets): DOCKER_PASSWORD (tu Access Token de Docker Hub).
-
-📊 Diagrama de Secuencia
-
-Así es como interactúan los dos repositorios cuando haces un cambio:
-```mermaid
-sequenceDiagram
-participant Dev as 👨‍💻 Desarrollador
-participant App as 📁 Repo: My-App
-participant Lib as 📚 Repo: DevOps-Library
-participant Hub as 🐳 Docker Hub
-
-    Dev->>App: git push
-    App->>App: Detecta cambio en 'feat/...'
-    App->>Lib: ¡Hey! Usa tu plantilla 'build-push'
-    Note over Lib: Se ejecuta en servidores de GitHub
-    Lib->>Hub: Sube la imagen construida
-    Hub-->>Dev: ✅ Imagen disponible en el registro
+```bash
+npm install
+npm start
 ```
 
-⌨️ Comandos para pruebas
+Por defecto escucha en el puerto **3000**: `http://localhost:3000`.
 
-Si quieres ver el proceso en vivo o forzar un despliegue:
+## Docker
 
-git commit --allow-empty -m "trigger pipeline": Dispara el flujo sin necesidad de cambiar código.
+Construir la imagen (desde esta carpeta):
 
-gh run list: (Si tienes GitHub CLI) Lista los despliegues actuales.
+```bash
+docker build -t auy1104-api-ejemplo .
+```
 
-gh run view --log: Permite ver los errores o éxitos en tiempo real desde la consola.
+Ejecutar el contenedor:
 
-Logro: Integración exitosa con Reusable Workflows
+```bash
+docker run --rm -p 3000:3000 -ti auy1104-api-ejemplo
+```
+
+Si el puerto **3000** de tu equipo ya está ocupado, usa otro puerto en el host (el primero del mapeo) y deja **3000** como puerto del contenedor:
+
+```bash
+docker run --rm -p 8080:3000 -ti auy1104-api-ejemplo
+```
+
+En ese caso las URLs de los ejemplos serían `http://localhost:8080/...`.
+
+## Endpoints
+
+| Método | Ruta | Descripción |
+|--------|------|-------------|
+| `GET` | `/health` | Estado del servicio |
+| `GET` | `/api/saludo` | Saludo en JSON; query opcional `nombre` |
+| `POST` | `/api/echo` | Devuelve en JSON el cuerpo enviado |
+
+Cualquier otra ruta responde **404** con JSON: `{ "error": "Ruta no encontrada" }`.
+
+## Ejemplos con `curl`
+
+Sustituye `localhost:3000` por `localhost:8080` (u otro) si mapeaste el contenedor distinto, por ejemplo `-p 8080:3000`.
+
+### `GET /health`
+
+```bash
+curl -s http://localhost:3000/health
+```
+
+### `GET /api/saludo`
+
+Sin parámetros (usa el nombre por defecto `estudiante`):
+
+```bash
+curl -s http://localhost:3000/api/saludo
+```
+
+Con query `nombre`:
+
+```bash
+curl -s "http://localhost:3000/api/saludo?nombre=Duoc"
+```
+
+### `POST /api/echo`
+
+Envía JSON en el cuerpo; la API responde con estado **201** y el objeto recibido en `recibido`.
+
+```bash
+curl -s -X POST http://localhost:3000/api/echo \
+  -H "Content-Type: application/json" \
+  -d '{"curso":"AUY1104","modulo":"Docker"}'
+```
+
+### Ruta inexistente (404)
+
+```bash
+curl -s http://localhost:3000/api/no-existe
+```
+
+## Estructura del proyecto
+
+```
+Docker de Ejemplo/
+├── Dockerfile
+├── .dockerignore
+├── package.json
+├── package-lock.json
+├── README.md
+└── src/
+    └── index.js
+```
+
+## Variables de entorno
+
+| Variable | Valor por defecto | Uso |
+|----------|-------------------|-----|
+| `PORT` | `3000` | Puerto donde escucha la app dentro del contenedor o en local |
