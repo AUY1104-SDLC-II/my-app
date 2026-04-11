@@ -5,13 +5,14 @@ on:
     tags:
       - 'v.*.*.*'
     branches:
-      - feat/evaluacion_sumativa_1
+      - feat/actividad-1-1-plantilla-docker
+      - feat/evalacion_sumativa_1
   workflow_dispatch:
 
 
 jobs:
   call-docker-workflow:
-    uses: AUY1104-SDLC-II/devops-library/.github/workflows/build-push.yml@feat/evaluacion_sumativa_1
+    uses: AUY1104-SDLC-II/devops-library/.github/workflows/build-push.yml@feat/actividad-1-1-plantilla-docker
     with:
       image-name: demo-api
       image-tag: ${{ github.ref_name}}
