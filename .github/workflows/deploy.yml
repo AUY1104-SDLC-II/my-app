@@ -5,13 +5,17 @@ on:
     tags:
       - 'v.*.*.*'
     branches:
-      - feat/actividad-1-1-hola-mundo-web
+      - feat/actividad-1-1-plantilla-docker
+      - feat/evalacion_sumativa_1
+  workflow_dispatch:
+
 
 jobs:
   call-docker-workflow:
     uses: AUY1104-SDLC-II/devops-library/.github/workflows/build-push.yml@feat/actividad-1-1-plantilla-docker
     with:
-      image_name: ${{ vars.DOCKER_USERNAME  }}/web-srv-hola-mundo
+      image-name: demo-api
+      image-tag: ${{ github.ref_name}}
     secrets:
       DOCKER_USERNAME: ${{ vars.DOCKER_USERNAME }}
       DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
